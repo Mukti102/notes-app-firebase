@@ -76,13 +76,13 @@ function Dashboard({
     setTarget(100);
   };
   const addNotesCard = async (e) => {
-    // e.preventDefault();
+    setIndex(e);
     const random = handleRandomBackground();
     setBgColor(random);
     const data = {
       title,
       content,
-      date: new Date().getTime(),
+      date: new Date(),
       userId: idStorage,
       index,
       color: `${bgColor}`,
@@ -95,6 +95,7 @@ function Dashboard({
     }
     setIsUpdate(true);
     setTarget(dataStorage[0].data.length);
+    console.log(e);
   };
 
   const handleUpdate = (item, index) => {
@@ -129,47 +130,29 @@ function Dashboard({
   };
 
   return (
-    <div className="w-full h-full py-8 gap-3 flex flex-col justify-center items-center bg-slate-700">
-      {/* <div className="w-[30%] flex flex-col gap-3 overflow-hidden ">
-        <input
-          type="text"
-          placeholder="Title"
-          className="border-[1.5px] border-teal-400 rounded-sm w-full py-1 px-2 focus:outline-none"
-          onChange={(e) => inputTitleChange(e)}
-          value={title}
-        />
-        <textarea
-          name=""
-          id=""
-          cols="30"
-          rows="10"
-          className="border-[1.5px] px-2 py-1 rounded-sm border-cyan-500 w-full focus:outline-none"
-          placeholder="Write here..."
-          value={content}
-          onChange={(e) => inputContentChange(e)}
-        ></textarea>
-        <Button
-          Title={isUpdate ? "Update" : "Simpan"}
-          onClick={handleSaveNotes}
-          isLoading={isLoading}
-          // background="bg-red-500"
-        />
-      </div> */}
-      <div className="w-full flex p-1">
+    <div className="sm:w-full sm:h-full h-screen sm:py-8 inline-block sm:gap-3 justify-center bg-slate-800 p-1">
+      <h1
+        className="text-white sm:text-4xl sm:ml-5 sm:mb-5 text-lg"
+        style={{ fontFamily: "Quicksand" }}
+      >
+        Selamat Menulis😊
+      </h1>
+      <div className="w-full flex p-1 ">
         {dataStorage.length ? (
-          <div className="w-full flex justify-center flex-wrap gap-y-10 gap-x-5">
+          <div className="w-full flex justify-center items-start flex-wrap sm:gap-y-10 sm:gap-x-5 gap-y-2 gap-x-2 sm:flex-wrap">
             {dataStorage[0].data.map((item, index) => {
               return (
+                // card notes
                 <div
                   key={index}
-                  className={`group shadow-md w-1/4 h-max px-2 relative py-2 rounded-sm hover:bg-teal-300 transition-all delay-100 whitespace-normal`}
+                  className={`group shadow-md sm:w-1/5 w-20  sm:h-max sm:px-2 relative sm:py-2  rounded-sm hover:bg-teal-300 transition-all delay-100 whitespace-normal h-max p-1 pt-0 py-1`}
                   style={{
-                    backgroundColor: item.bgColor || handleRandomBackground,
+                    backgroundColor: item.color || "teal",
                   }}
                 >
                   {/* Remove Button */}
                   <button
-                    className="absolute -right-2 -top-2 w-5 h-5 rounded-full text-sm bg-white text-slate-500
+                    className="absolute sm:-right-2 sm:-top-3 -right-[2px] -top-[2px] sm:w-5 sm:h-5 w-[5px] h-[5px] rounded-full sm:text-sm text-[4px] bg-white text-slate-500
                   "
                     onClick={() => handleRemove(item, index)}
                   >
@@ -177,64 +160,71 @@ function Dashboard({
                   </button>
 
                   {/* Title */}
-                  <div className="mb-3 bg-slate-900 h-10 flex items-center bg-opacity-60 p-2 rounded-md">
+                  <p className="sm:text-slate-50 sm:text-sm my-1 text-[5px]">
+                    {showFormattedDate(item.date)}
+                  </p>
+                  <div className="sm:mb-3 mb-0 bg-slate-800 s:h-10  flex  bg-opacity-50 sm:p-2 sm:rounded-md h-max px-1 rounded-sm ">
                     {index == target ? (
                       <input
                         type="text"
                         value={title}
-                        className=" bg-slate-900 bg-opacity-0 w-full p-2 rounded-md ont-semibold text-xl text-slate-50 capitalize  outline-none whitespace-normal h-max "
+                        className=" bg-slate-900 bg-opacity-0 w-full sm:p-2 rounded-md ont-semibold sm:text-lg text-slate-50 capitalize  outline-none whitespace-normal h-max placeholder:text-slate-400 text-[5px]"
+                        placeholder="Title..."
                         onChange={(e) => inputTitleChange(e)}
                       />
                     ) : (
-                      <h1 className="font-semibold text-xl text-slate-50 capitalize whitespace-normal overflow-hidden h-max">
+                      <h1 className="sm:font-semibold sm:text-[16px]  text-slate-50 capitalize whitespace-normal overflow-hidden h-max p-0 text-[5.5px] px-[1px] font-medium">
                         {item.title}
                       </h1>
                     )}
                   </div>
-                  {/* <p className="text-slate-100 text-sm">{item.date}</p> */}
 
                   {/* content */}
-                  <div className="w-full h-max my-3 bg-slate-900 bg-opacity-50 rounded-md p-2">
+                  <div className="w-full sm:h-max sm:my-2 my-[3px] bg-slate-900 bg-opacity-50 sm:rounded-md sm:p-2 px-1 h-max">
                     {target == index ? (
                       <textarea
                         name=""
                         id=""
                         cols="33"
                         rows="7"
-                        className="bg-transparent p-1 outline-none text-white scrollbar-hide"
+                        className="bg-transparent sm:p-1 outline-none text-white scrollbar-hide placeholder:text-slate-400 sm:text-sm text-[4px] p-[2px] w-full"
                         onChange={(e) => inputContentChange(e)}
                         value={content}
+                        placeholder="Content..."
                       ></textarea>
                     ) : (
-                      <p className="text-slate-50 w-full h-max  overflow-hidden whitespace-normal">
+                      <p className="text-slate-50 w-full h-max overflow-hidden whitespace-normal sm:text-sm text-[4px] py-[1px]">
                         {item.content}
                       </p>
                     )}
                   </div>
-
-                  {/* Update Button */}
-                  <button
-                    className={
-                      "w-max text-sm px-4 bg-[#8E8FFA] py-1 absolute right-0 -bottom-5 rounded-md shadow-md hover:bg-slate-50"
-                    }
-                    onClick={() => handleUpdate(item, index)}
-                  >
-                    {"Update"}
-                  </button>
-                  <button
-                    className={
-                      "w-max text-sm px-4 bg-[#8E8FFA] py-1 absolute right-24 -bottom-5 rounded-md shadow-md hover:bg-slate-50"
-                    }
-                    onClick={() => handleSaveNotes()}
-                  >
-                    Simpan
-                  </button>
+                  <div className="flex gap-2 flex-row-reverse">
+                    {/* Update Button */}
+                    <button
+                      className={
+                        "sm:w-max w-max sm:text-sm sm:px-4 bg-yellow-600 sm:py-1 right-0 -bottom-5 rounded-sm shadow-md text-white hover:bg-yellow-700 text-[5px] px-1 h-max py-[2px]"
+                      }
+                      onClick={() => handleUpdate(item, index)}
+                    >
+                      {"Update"}
+                    </button>
+                    <button
+                      className={
+                        "sm:w-max w-max sm:text-sm sm:px-4 bg-green-600 sm:py-1 right-0 -bottom-5 rounded-sm shadow-md text-white hover:bg-green-700 text-[5px] px-1 h-max py-[2px]"
+                      }
+                      onClick={() => handleSaveNotes()}
+                    >
+                      Simpan
+                    </button>
+                  </div>
                 </div>
               );
             })}
             <button
-              className="text-3xl text-slate-800 bg-white w-8 h-9 text-center rounded-sm"
-              onClick={addNotesCard}
+              className={`sm:text-3xl text-slate-800 bg-white sm:w-7 sm:h-8 sm:text-center rounded-sm ml-2 hover:bg-slate-200 text-[8px] w-2 h-2 p-0 flex items-center justify-center ${
+                isUpdate ? " scale-0" : "scale-100"
+              }`}
+              onClick={() => addNotesCard(dataStorage[0].data.length)}
             >
               +
             </button>
@@ -267,6 +257,16 @@ const removeDataFromApi = (data) => (dispatch) => {
         console.log("Error", e);
       });
   });
+};
+
+const showFormattedDate = (date) => {
+  const options = {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  };
+  return new Date(date).toLocaleDateString("id-ID", options);
 };
 
 const mapStateToProps = (state) => ({

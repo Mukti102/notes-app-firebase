@@ -61,7 +61,7 @@ export const loginUserApi = (email, password) => (dispatch) => {
       }
       dispatch({type : "CHANGE_ISLOADING",value : false})
       dispatch({type : "CHANGE_USER" , value : userData})
-      localStorage.setItem("userData",JSON.stringify(userData.uId))
+      localStorage.setItem("userData",JSON.stringify(userData.uId,userData.email))
       // alert("Login Succes")
       resolve(userData)
     })
@@ -98,6 +98,7 @@ export const loginUserApi = (email, password) => (dispatch) => {
           bgColor : data.color,
           isUpdate : data.isUpdate
         });
+
         dispatch({ type: "CHANGE_ISLOADING", value: false });
         resolve(true)
       } catch (err) {
